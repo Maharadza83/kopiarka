@@ -10,6 +10,15 @@ export const routes: Routes = [
         path: '',
         loadChildren: () => import('@copy/core/home/home.routes'),
       },
+      {
+        path: 'auth',
+        loadChildren: () => import('@copy/core/auth/auth.routes'),
+      },
+      {
+        path: '**',
+        redirectTo: 'auth',
+        pathMatch: 'full',
+      },
     ],
   },
 ];
