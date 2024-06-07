@@ -1,33 +1,108 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@copy/*": [
+        "app/*"
+      ],
+      "@copy/animations/*": [
+        "app/animations/*"
+      ],
+      "@copy/core/*": [
+        "app/core/*"
+      ],
+      "@copy/directives/*": [
+        "app/directives/*"
+      ],
+      "@copy/guards/*": [
+        "app/guards/*"
+      ],
+      "@copy/shell/*": [
+        "app/shell/*"
+      ],
+      "@copy/interceptors/*": [
+        "app/interceptors/*"
+      ],
+      "@copy/interfaces/*": [
+        "app/interfaces/*"
+      ],
+      "@copy/pipes/*": [
+        "app/pipes/*"
+      ],
+      "@copy/providers/*": [
+        "app/providers/*"
+      ],
+      "@copy/resolvers/*": [
+        "app/resolvers/*"
+      ],
+      "@copy/services/*": [
+        "app/services/*"
+      ],
+      "@copy/store/*": [
+        "app/store/*"
+      ],
+      "@copy/styles/*": [
+        "app/styles/*"
+      ],
+      "@copy/types/*": [
+        "app/types/*"
+      ],
+      "@copy/ui/*": [
+        "app/ui/*"
+      ],
+      "@copy/utils/*": [
+        "app/utils/*"
+      ],
+      "@copy/assets/*": [
+        "app/assets/*"
+      ],
+      "@copy/env/*": [
+        "environments/*"
+      ]
+    },
     "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "useDefineForClassFields": false,
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "listEmittedFiles": true,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "diagnostics": true,
+    "extendedDiagnostics": true,
+    "removeComments": true,
+    "useDefineForClassFields": false,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "exclude": [
+    "server.ts"
+  ]
 }
