@@ -1,0 +1,25 @@
+<div class="flex mt-20 justify-center items-center ">
+  <div class="p-5 bg-slate-200 shadow-lg rounded">
+    <p class="text-2xl font-bold text-center w-full pt-1.5 text-slate-700">
+      Add note
+    </p>
+    <form class="lg:w-96 w-72">
+      <mat-form-field appearance="outline" class="w-full mt-4">
+        <mat-label>Name</mat-label>
+        <input matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full mt-4">
+        <mat-label>Your note</mat-label>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="8"
+                  cdkAutosizeMaxRows="20"></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+
+
+

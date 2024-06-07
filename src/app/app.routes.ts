@@ -15,6 +15,10 @@ export const routes: Routes = [
         loadChildren: () => import('@copy/core/auth/auth.routes'),
       },
       {
+        path: 'notes',
+        loadChildren: () => import('@copy/core/notes/notes.routes'),
+      },
+      {
         path: '**',
         redirectTo: 'auth',
         pathMatch: 'full',
