@@ -1,16 +1,18 @@
-<nav class="w-full py-2 px-5 bg-slate-600 shadow-lg items-center z-30 sticky top-0">
-  <div class="flex flex-col md:flex-row justify-between gap-2 md:gap-10">
-    <div class="flex flex-col md:flex-row gap-2 md:gap-5">
-      <button routerLink="/notes/add" mat-flat-button color="primary" class="w-full md:w-auto">Dodaj notatkę</button>
-      <button routerLink="/notes/list" mat-flat-button color="primary" class="w-full md:w-auto">Wszystkie notatki</button>
+<nav class="w-full py-2 px-5 bg-blue-200 shadow-lg items-center flex z-30 justify-between sticky top-0">
+  <h1 class="font-semibold text-blue-600">KOPIARKA</h1>
+
+  <div class="flex gap-x-3 lg:gap-x-10">
+    <div class="flex gap-x-1">
+      <button mat-button>Notes list</button>
+      <button mat-button>Add new</button>
     </div>
-    <div class="flex flex-col md:flex-row gap-2 md:gap-5">
-      <button mat-raised-button [matMenuTriggerFor]="menu">PROFILE</button>
-      <mat-menu #menu="matMenu">
-        <button routerLink="/auth/login" mat-menu-item>Log in</button>
-        <button routerLink="/auth/register" mat-menu-item>Register</button>
-        <button routerLink="/auth/logout" mat-menu-item>Log out</button>
-      </mat-menu>
+
+    <div class="flex gap-x-1.5 items-center text-blue-600">
+      <mat-icon class="!hidden lg:!inline-block" fontIcon="account_circle"></mat-icon>
+      <p class="text-sm pe-2 hidden lg:flex">Hi, Dominik</p>
+      <button class="!flex !items-center !scale-75 !justify-center !text-blue-600" mat-icon-button color="primary">
+        <mat-icon>logout</mat-icon>
+      </button>
     </div>
   </div>
 </nav>
