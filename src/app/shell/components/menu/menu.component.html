@@ -5,7 +5,7 @@
       <button routerLink="/notes/list" mat-flat-button color="primary" class="w-full md:w-auto">Wszystkie notatki</button>
     </div>
     <div class="flex flex-col md:flex-row gap-2 md:gap-5">
-      <button mat-button [matMenuTriggerFor]="menu">PROFILE</button>
+      <button mat-raised-button [matMenuTriggerFor]="menu">PROFILE</button>
       <mat-menu #menu="matMenu">
         <button routerLink="/auth/login" mat-menu-item>Log in</button>
         <button routerLink="/auth/register" mat-menu-item>Register</button>
