@@ -33,7 +33,7 @@
               }
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/azure-blue.css",
+              "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -98,7 +98,7 @@
               }
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/azure-blue.css",
+              "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -108,6 +108,6 @@
     }
   },
   "cli": {
-    "analytics": "083e0f3a-2f5c-4f5d-ad40-f535b4b1a0d1"
+    "analytics": "7cd24ce7-962f-45ea-b60f-4b5cc7c2c92d"
   }
 }
