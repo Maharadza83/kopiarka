@@ -1,10 +1,10 @@
 <nav class="w-full py-2 px-5 bg-blue-200 shadow-lg items-center flex z-30 justify-between sticky top-0">
-  <h1 class="font-semibold text-blue-600">KOPIARKA</h1>
+  <h1 routerLink="./" class="font-semibold text-blue-600">KOPIARKA</h1>
 
   <div class="flex gap-x-3 lg:gap-x-10">
     <div class="flex gap-x-1">
-      <button mat-button>Notes list</button>
-      <button mat-button>Add new</button>
+      <button routerLink="/notes/list" mat-button>Notes list</button>
+      <button routerLink="/notes/add" mat-button>Add new</button>
     </div>
 
     <div class="flex gap-x-1.5 items-center text-blue-600">
