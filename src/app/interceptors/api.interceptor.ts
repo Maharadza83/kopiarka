@@ -12,14 +12,15 @@ export const apiInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn,
 ) => {
   const userStore = inject(UserStore);
+  const token = userStore.getToken();
   const newReq = request.clone({
     setHeaders: {
-      Token: userStore.getToken(),
+      Token: token,
     },
   });
 
 
-  return next(newReq).pipe(
+  return next(token ? newReq : request).pipe(
     catchError((e) => {
       if (e.status === 401) {
         userStore.logOut();
