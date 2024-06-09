@@ -3,16 +3,25 @@
 
   <div class="flex gap-x-3 lg:gap-x-10">
     <div class="flex gap-x-1">
-      <button routerLink="/notes/list" mat-button>Notes list</button>
-      <button routerLink="/notes/add" mat-button>Add new</button>
+      <button type="button" routerLink="/notes/list" mat-button>Notes list</button>
+      <button type="button" routerLink="/notes/add" mat-button>Add new</button>
     </div>
 
     <div class="flex gap-x-1.5 items-center text-blue-600">
-      <mat-icon class="!hidden lg:!inline-block" fontIcon="account_circle"></mat-icon>
-      <p class="text-sm pe-2 hidden lg:flex">Hi, Dominik</p>
-      <button class="!flex !items-center !scale-75 !justify-center !text-blue-600" mat-icon-button color="primary">
-        <mat-icon>logout</mat-icon>
-      </button>
+      @if (user()) {
+        <mat-icon class="!hidden lg:!inline-block" fontIcon="account_circle"></mat-icon>
+        <p class="text-sm pe-2 hidden lg:flex">Hi, {{ user() }}</p>
+        <button type="button" (click)="logOutHandler()" class="!flex !items-center !scale-75 !justify-center !text-blue-600" mat-icon-button color="primary">
+          <mat-icon>logout</mat-icon>
+        </button>
+      } @else {
+        <a routerLink="/auth/login">
+          <button type="button" mat-button>Sign in</button>
+        </a>
+        <a routerLink="/auth/register">
+          <button type="button" mat-button>Sign up</button>
+        </a>
+      }
     </div>
   </div>
 </nav>
