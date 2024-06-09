@@ -30,6 +30,15 @@ export class AuthService {
     );
   }
 
+  public xregister(username: string, password: string): Observable<{ name: string }> {
+    return this.httpClient.put<{ name: string }>(`${this.apiUrl}/auth/register`, { username, password }).pipe(
+      catchError(() => {
+        this.toastrService.error('Użytkownik o takim mailu lub nazwie już istnieje');
+        return of();
+      }),
+    );
+  }
+
   public getSelf(): Observable<{ username: string }> {
     return this.httpClient.get<{ username: string }>(`${this.apiUrl}/auth/self`);
   }
