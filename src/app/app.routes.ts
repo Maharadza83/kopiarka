@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ShellComponent } from '@copy/shell/shell.component';
+import { isLoggedOutGuard } from '@copy/guards/is-logged-out.guard';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
       {
         path: 'auth',
         loadChildren: () => import('@copy/core/auth/auth.routes'),
+        canActivate: [ isLoggedOutGuard ],
       },
       {
         path: 'notes',

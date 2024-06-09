@@ -49,7 +49,7 @@ export class UserStore {
   }
 
   public getSelf(): void {
-    if (this.getToken().length > 1) {
+    if (this.getToken()) {
       this.startLoading();
       this.authService.getSelf().subscribe(({ username }) => {
         this._user.set(username);
