@@ -18,6 +18,7 @@ export class UserStore {
   public readonly loading: Signal<boolean> = computed(() => this._loading());
 
   public register(username: string, password: string): void {
+    this.startLoading();
     this.authService.register(username, password).subscribe(() => {
         this.router.navigate([ '/auth/login' ]).then(() => this.toastrService.success('Zarejestrowano!'));
       }, () => {
