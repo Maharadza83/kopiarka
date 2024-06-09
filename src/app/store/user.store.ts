@@ -42,7 +42,7 @@ export class UserStore {
   }
 
   public logOut(): void {
-    this.router.navigate([ '/home' ]).then(() => {
+    this.router.navigate([ '/' ]).then(() => {
       this._user.set(null);
       localStorage.removeItem('bearer');
     });
