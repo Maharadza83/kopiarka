@@ -23,8 +23,8 @@ export class NotesService {
     );
   }
 
-  public updateSingleNote(id: string, title: string, content: string): Observable<INote> {
-    return this.httpClient.put<INote>(`${this.apiUrl}/notes/${id}`, { title, content }).pipe(
+  public updateSingleNote(id: string, name: string, content: string): Observable<INote> {
+    return this.httpClient.put<INote>(`${this.apiUrl}/notes/${id}`, { name, content }).pipe(
       catchError(() => {
         this.toastrService.error('2137 nie mozna zaaktualizowac');
         return of();
@@ -50,8 +50,8 @@ export class NotesService {
     );
   }
 
-  public addNote(title: string, content: string): Observable<INote> {
-    return this.httpClient.post<INote>(`${this.apiUrl}/notes`, { title, content }).pipe(
+  public addNote(name: string, content: string): Observable<INote> {
+    return this.httpClient.post<INote>(`${this.apiUrl}/notes`, { name, content }).pipe(
       catchError(() => {
         this.toastrService.error('420 przerwa techniczna');
         return of();
