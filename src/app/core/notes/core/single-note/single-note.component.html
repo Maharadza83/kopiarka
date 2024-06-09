@@ -1,27 +1,28 @@
 <div class="flex mt-20 justify-center items-center ">
-  <div class="flex justify-center flex-col items-center p-5 mb-5 bg-slate-200 shadow-lg rounded">
-    <p class="text-2xl font-bold text-center w-full pt-1.5 text-slate-700">
+  <div class="flex justify-center flex-col items-center lg:w-2/3 w-72 mt-4 p-5 mb-5 bg-slate-200 shadow-lg rounded">
+    <p class="text-2xl font-bold text-center w-full pt-1.5 text-slate-700 pb-3">
       Watch note
     </p>
-    <div class="justify-center flex lg:w-2/3 w-72 mt-4">
-      <mat-card class="example-card">
+    <div class="justify-center flex !w-full">
+      <mat-card class="example-card !w-full">
         <mat-card-header class="w-full mt-4">
-          <mat-card-subtitle>date</mat-card-subtitle>
-          <mat-card-title>note name</mat-card-title>
+          <mat-card-subtitle>
+            <p class="text-xs text-gray-500 mb-2">
+              {{ note().creationDate | date: 'dd.MM.yyyy, HH:mm' }}
+            </p>
+          </mat-card-subtitle>
+          <mat-card-title>{{ note().name }}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="w-full mt-4">
-          <p>author name</p>
-          <p class="text-justify ">History
-            SSIT is managed by the Sri Siddhartha Education Society, which was founded in 1979.
-
-            The late Sri H.M. Gangadharaiah, a staunch Gandhian and Buddhist, established the Sri Siddhartha Education Society in 1979 with the blessings of the father of Bhoodhan movement, "Saint Vinobha Bhave," with the objective of providing education
-
+          <p class="text-sm text-gray-500 mb-3">{{ note().author }}</p>
+          <p class="text-justify ">
+            {{ note().content }}
           </p>
           <mat-divider></mat-divider>
         </mat-card-content>
         <mat-card-actions class="w-full mt-4">
-          <button mat-button>COPY</button>
-          <button mat-button>SHARE</button>
+          <button [cdkCopyToClipboard]="note().content" mat-button>COPY</button>
+          <button [cdkCopyToClipboard]="'https://localhost:4200/notes/' + note().id" mat-button>SHARE</button>
         </mat-card-actions>
       </mat-card>
     </div>

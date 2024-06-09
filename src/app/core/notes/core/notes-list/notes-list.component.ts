@@ -6,6 +6,7 @@ import { NotesService } from '@copy/services/notes.service';
 import { INote } from '../../../../models/i-note';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-notes-list',
@@ -23,6 +24,7 @@ import { catchError, of } from 'rxjs';
     MatRowDef,
     DatePipe,
     MatPaginator,
+    RouterLink,
   ],
   templateUrl: './notes-list.component.html',
   styleUrl: './notes-list.component.scss',
