@@ -17,11 +17,11 @@ export class NotesService {
   private toastrService: ToastrService = inject(ToastrService);
 
   public getSingleNote(id: string): Observable<INote> {
-    return this.httpClient.get<INote>(`${this.apiUrl}/notes/${id}`);
+    return this.httpClient.get<INote>(`${this.apiUrl}/notes/GetNoteById/${id}`);
   }
 
   public updateSingleNote(id: string, name: string, content: string): Observable<INote> {
-    return this.httpClient.put<INote>(`${this.apiUrl}/notes/${id}`, { name, content }).pipe(
+    return this.httpClient.put<INote>(`${this.apiUrl}/notes/UpdateNote/${id}`, { name, content }).pipe(
       catchError(() => {
         this.toastrService.error('2137 nie mozna zaaktualizowac');
         return of(null);
@@ -30,7 +30,7 @@ export class NotesService {
   }
 
   public deleteSingleNote(id: string): Observable<INote> {
-    return this.httpClient.delete<INote>(`${this.apiUrl}/notes/${id}`);
+    return this.httpClient.delete<INote>(`${this.apiUrl}/notes/DeleteNoteById/${id}`);
   }
 
   public getAllNotes(params?: Partial<INotesListParams>): Observable<INotesList> {
@@ -42,7 +42,7 @@ export class NotesService {
       }
     }
 
-    return this.httpClient.get<INotesList>(`${this.apiUrl}/notes`, { params }).pipe(
+    return this.httpClient.get<INotesList>(`${this.apiUrl}/notes/GetAllNotes`, { params }).pipe(
       catchError(() => {
         this.toastrService.error('420 przerwa techniczna');
         return of(null);
@@ -51,7 +51,7 @@ export class NotesService {
   }
 
   public addNote(name: string, content: string): Observable<INote> {
-    return this.httpClient.post<INote>(`${this.apiUrl}/notes`, { name, content }).pipe(
+    return this.httpClient.post<INote>(`${this.apiUrl}/notes/AddNote`, { name, content }).pipe(
       catchError(() => {
         this.toastrService.error('420 przerwa techniczna');
         return of(null);
