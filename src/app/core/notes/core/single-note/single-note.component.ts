@@ -5,7 +5,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton, MatIconButton } from '@angular/material/button';
-import { INote } from '../../../../models/i-note';
+import { INote } from '@copy/models/i-note';
 import { NotesService } from '@copy/services/notes.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';

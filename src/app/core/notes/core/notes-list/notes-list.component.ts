@@ -3,12 +3,12 @@ import { MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, Mat
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { NotesService } from '@copy/services/notes.service';
-import { INote } from '../../../../models/i-note';
+import { INote } from '@copy/models/i-note';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { RouterLink } from '@angular/router';
-import { INotesList } from '../../../../models/i-notes-list';
-import { INotesListParams } from '../../../../models/i-notes-list-params';
+import { INotesList } from '@copy/models/i-notes-list';
+import { INotesListParams } from '@copy/models/i-notes-list-params';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSort, MatSortHeader, Sort, SortDirection } from '@angular/material/sort';
 

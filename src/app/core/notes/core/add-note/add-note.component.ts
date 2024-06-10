@@ -11,7 +11,7 @@ import { NotesService } from '@copy/services/notes.service';
 import { ToastrService } from 'ngx-toastr';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, skip, switchMap, take, tap } from 'rxjs';
-import { INote } from '../../../../models/i-note';
+import { INote } from '@copy/models/i-note';
 import { NgTemplateOutlet } from '@angular/common';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
