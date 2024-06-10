@@ -1,26 +1,43 @@
 <div class="flex mt-20 justify-center items-center ">
   <div class="p-5 bg-slate-200 shadow-lg rounded">
     <p class="text-2xl font-bold text-center w-full pt-1.5 text-slate-700">
-      Add note
+      @if (isEditMode()) {
+        <p>Edit note</p>
+        <p class="text-xs">{{ editedNote()?.id }}</p>
+      } @else {
+        Add note
+      }
     </p>
-    <form (ngSubmit)="addHandler()" [formGroup]="form" class="lg:w-96 w-72">
-      <mat-form-field appearance="outline" class="w-full mt-4">
-        <mat-label>Name</mat-label>
-        <input formControlName="name" matInput>
-      </mat-form-field>
 
-      <mat-form-field appearance="outline" class="w-full mt-4">
-        <mat-label>Your note</mat-label>
-        <textarea matInput
-                  formControlName="content"
-                  cdkTextareaAutosize
-                  #autosize="cdkTextareaAutosize"
-                  cdkAutosizeMinRows="8"
-                  cdkAutosizeMaxRows="20"></textarea>
-      </mat-form-field>
+    <ng-container [ngTemplateOutlet]="noteLoading() ? noteLoadingTpl : contentTpl"/>
 
-      <button [disabled]="loading()" mat-flat-button class="w-full mt-2" type="submit">Add</button>
-    </form>
+    <ng-template #noteLoadingTpl>
+      <div class="flex justify-center items-center lg:w-96 w-72 min-h-96">
+        <mat-spinner [diameter]="64"/>
+      </div>
+    </ng-template>
+
+    <ng-template #contentTpl>
+      <form (ngSubmit)="submitHandler()" [formGroup]="form" class="lg:w-96 w-72">
+        <mat-form-field appearance="outline" class="w-full mt-4">
+          <mat-label>Name</mat-label>
+          <input formControlName="name" matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full mt-4">
+          <mat-label>Your note</mat-label>
+          <textarea matInput
+                    formControlName="content"
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="8"
+                    cdkAutosizeMaxRows="20"></textarea>
+        </mat-form-field>
+
+        <button [disabled]="loading()" mat-flat-button class="w-full mt-2" type="submit">
+          {{ isEditMode() ? 'Update' : 'Add' }}
+        </button>
+      </form>
+    </ng-template>
   </div>
 </div>
 

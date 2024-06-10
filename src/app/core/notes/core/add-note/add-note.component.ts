@@ -1,13 +1,19 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotesService } from '@copy/services/notes.service';
+import { ToastrService } from 'ngx-toastr';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { catchError, of, skip, switchMap, take, tap } from 'rxjs';
+import { INote } from '../../../../models/i-note';
+import { NgTemplateOutlet } from '@angular/common';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 interface IUpdateNote {
   name: FormControl<string>;
@@ -27,6 +33,8 @@ interface IUpdateNote {
     RouterLink,
     CdkTextareaAutosize,
     ReactiveFormsModule,
+    NgTemplateOutlet,
+    MatProgressSpinner,
   ],
   templateUrl: './add-note.component.html',
   styleUrl: './add-note.component.scss',
@@ -35,20 +43,68 @@ interface IUpdateNote {
 export class AddNoteComponent implements OnInit {
   private readonly notesService: NotesService = inject(NotesService);
   private readonly router: Router = inject(Router);
+  private readonly injector: Injector = inject(Injector);
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private readonly toastrService: ToastrService = inject(ToastrService);
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   public form: FormGroup<IUpdateNote>;
   public readonly loading: WritableSignal<boolean> = signal(false);
+  public readonly noteLoading: WritableSignal<boolean> = signal(false);
+
+  public readonly isEditMode: Signal<boolean> = toSignal(
+    this.activatedRoute.params.pipe(
+      switchMap(({ id }) => {
+        return of(id?.length > 0 || false);
+      }),
+    ),
+  );
+
+  public readonly editedNote: Signal<INote> = toSignal(
+    this.activatedRoute.params.pipe(
+      tap(() => this.noteLoading.set(true)),
+      switchMap(({ id }) => {
+        if (this.isEditMode()) {
+          return this.notesService.getSingleNote(id);
+        }
+
+        return of(null);
+      }),
+      tap(() => this.noteLoading.set(false)),
+      catchError(() => {
+        this.router.navigate([ '/notes/list' ]);
+        this.toastrService.error('Note does not exist.');
+        return of(null);
+      }),
+    ),
+  );
 
   public ngOnInit(): void {
     this.buildForm();
+    this.patchFormListener();
   }
 
   public addHandler() {
-    if (this.form.valid && !this.loading()) {
-      const { name, content } = this.form.getRawValue();
-      this.notesService.addNote(name, content).subscribe(() => {
-        this.router.navigate([ '/notes/list' ]);
+    const { name, content } = this.form.getRawValue();
+    this.notesService.addNote(name, content).subscribe(({ id }) => {
+      this.router.navigate([ '/notes', id ]).then(() => {
+        this.toastrService.success('Note added successfully.');
       });
+    });
+  }
+
+  public editHandler(): void {
+    const { name, content } = this.form.getRawValue();
+    const id = this.activatedRoute.snapshot.params['id'];
+    this.notesService.updateSingleNote(id, name, content).subscribe(({ id }) => {
+      this.router.navigate([ '/notes', id ]).then(() => {
+        this.toastrService.success('Note modified successfully.');
+      });
+    });
+  }
+
+  public submitHandler(): void {
+    if (this.form.valid && !this.loading()) {
+      this.isEditMode() ? this.editHandler() : this.addHandler();
     }
   }
 
@@ -57,5 +113,19 @@ export class AddNoteComponent implements OnInit {
       name: new FormControl(null, [ Validators.required ]),
       content: new FormControl(null, [ Validators.required ]),
     });
+  }
+
+  private patchFormListener(): void {
+    if (this.isEditMode()) {
+      toObservable(this.editedNote, { injector: this.injector }).pipe(
+        skip(1),
+        take(1),
+      ).subscribe(({ name, content }) => {
+        this.form.patchValue({
+          name,
+          content,
+        });
+      });
+    }
   }
 }

@@ -1,44 +1,63 @@
-<div class="lg:px-20 py-10 ">
+<div class="lg:px-20 py-10">
   <p class="font-bold text-2xl text-center pb-10"> All notes</p>
+  <div class="relative border border-solid border-gray-300 min-h-28 flex items-center justify-center flex-col w-full">
+    <ng-container [ngTemplateOutlet]="isInitialLoading() ? initialLoadingTpl : contentTpl"/>
 
-  @if (datasource()) {
-    <div class="border border-solid border-gray-300">
-      <table mat-table [dataSource]="datasource()">
+    <ng-template #initialLoadingTpl>
+      <mat-spinner [diameter]="64"/>
+    </ng-template>
 
-        <ng-container matColumnDef="id">
-          <th class="hidden lg:table-cell" mat-header-cell *matHeaderCellDef> Id</th>
-          <td class="hidden lg:table-cell" mat-cell *matCellDef="let element"> {{ element.id }}</td>
-        </ng-container>
+    <ng-template #contentTpl>
+      <ng-container [ngTemplateOutlet]="isEmpty() ? emptyTpl : tableTpl"/>
 
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name</th>
-          <td mat-cell *matCellDef="let element">
-            <a [routerLink]="['/notes', element.id]" class="text-blue-600 font-semibold">{{ element.name }}</a>
-          </td>
-        </ng-container>
+      <ng-template #emptyTpl>
+        <p>No notes found!</p>
+      </ng-template>
 
-        <ng-container matColumnDef="author">
-          <th mat-header-cell *matHeaderCellDef> Author</th>
-          <td mat-cell *matCellDef="let element"> {{ element.author }}</td>
-        </ng-container>
+      <ng-template #tableTpl>
+        @if (loading()) {
+          <div class="absolute w-full top-0 h-full left-0 bg-blue-100/[0.5] animate-pulse flex justify-center items-center">
+            <mat-spinner [diameter]="64"/>
+          </div>
+        }
 
-        <ng-container matColumnDef="creationDate">
-          <th mat-header-cell *matHeaderCellDef> Creation Date</th>
-          <td mat-cell *matCellDef="let element"> {{ element.creationDate | date:'dd.MM.yyyy HH:mm' }}</td>
-        </ng-container>
+        <table mat-table matSort (matSortChange)="changeSort($event)" [dataSource]="datasource()">
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <div class="pt-5">
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                       showFirstLastButtons
-                       aria-label="Select page of periodic elements">
-        </mat-paginator>
-      </div>
-    </div>
-  } @else {
-    <p>Loading...</p>
-  }
+          <ng-container matColumnDef="id">
+            <th mat-sort-header="id" class="hidden lg:table-cell" mat-header-cell *matHeaderCellDef> Id</th>
+            <td class="hidden lg:table-cell" mat-cell *matCellDef="let element"> {{ element.id }}</td>
+          </ng-container>
 
+          <ng-container matColumnDef="name">
+            <th mat-sort-header="name" mat-header-cell *matHeaderCellDef> Name</th>
+            <td mat-cell *matCellDef="let element">
+              <a [routerLink]="['/notes', element.id]" class="text-blue-600 font-semibold">{{ element.name }}</a>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="author">
+            <th mat-sort-header="author" mat-header-cell *matHeaderCellDef> Author</th>
+            <td mat-cell *matCellDef="let element"> {{ element.author }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="creationDate">
+            <th mat-sort-header="creationDate" mat-header-cell *matHeaderCellDef> Creation Date</th>
+            <td mat-cell *matCellDef="let element"> {{ element.creationDate | date:'dd.MM.yyyy HH:mm' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="w-full">
+          <mat-paginator [pageSizeOptions]="[1, 10, 20]"
+                         class="!w-full"
+                         [pageSize]="pageSize()"
+                         [pageIndex]="page()"
+                         [length]="totalCount()"
+                         (page)="changePagination($event)">
+          </mat-paginator>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
 </div>

@@ -18,7 +18,7 @@ export const isLoggedOutGuard: CanActivateFn = (_route: ActivatedRouteSnapshot):
       if (!user) {
         return true;
       } else {
-        return router.parseUrl('/home');
+        return router.parseUrl('/notes/list');
       }
     }),
     catchError(() => {

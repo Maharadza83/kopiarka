@@ -16,7 +16,7 @@ export class AuthService {
     return this.httpClient.post<{ token: string }>(`${this.apiUrl}/auth/login`, { username, password }).pipe(
       catchError(() => {
         this.toastrService.error('Logowanie nie powiodło się. Sprawdź poprawność danych');
-        return of();
+        return of(null);
       }),
     );
   }
@@ -25,7 +25,7 @@ export class AuthService {
     return this.httpClient.post<void>(`${this.apiUrl}/auth/register`, { username, password }).pipe(
       catchError(() => {
         this.toastrService.error('Użytkownik o takim mailu lub nazwie już istnieje');
-        return of();
+        return of(null);
       }),
     );
   }
@@ -34,7 +34,7 @@ export class AuthService {
     return this.httpClient.put<{ name: string }>(`${this.apiUrl}/auth/register`, { username, password }).pipe(
       catchError(() => {
         this.toastrService.error('Użytkownik o takim mailu lub nazwie już istnieje');
-        return of();
+        return of(null);
       }),
     );
   }

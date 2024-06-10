@@ -4,26 +4,61 @@
       Watch note
     </p>
     <div class="justify-center flex !w-full">
-      <mat-card class="example-card !w-full">
-        <mat-card-header class="w-full mt-4">
-          <mat-card-subtitle>
-            <p class="text-xs text-gray-500 mb-2">
-              {{ note().creationDate | date: 'dd.MM.yyyy, HH:mm' }}
+      <mat-card class="!w-full !relative">
+        <ng-container [ngTemplateOutlet]="loading() ? loadingTpl : doesNoteExist() ? contentTpl : emptyTpl"/>
+
+        <ng-template #loadingTpl>
+          <div class="w-full min-h-28 flex justify-center items-center">
+            <mat-spinner [diameter]="64"/>
+          </div>
+        </ng-template>
+
+        <ng-template #contentTpl>
+          <mat-card-header class="w-full mt-4">
+            <mat-card-subtitle>
+              <p class="text-xs text-gray-500 mb-2">
+                {{ note().creationDate | date: 'dd.MM.yyyy, HH:mm' }}
+              </p>
+            </mat-card-subtitle>
+            <mat-card-title>{{ note().name }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="w-full mt-4">
+            <p class="text-sm text-gray-500 mb-3">{{ note().author }}</p>
+            <p class="text-justify break-words">
+              {{ note().content }}
             </p>
-          </mat-card-subtitle>
-          <mat-card-title>{{ note().name }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="w-full mt-4">
-          <p class="text-sm text-gray-500 mb-3">{{ note().author }}</p>
-          <p class="text-justify ">
-            {{ note().content }}
-          </p>
-          <mat-divider></mat-divider>
-        </mat-card-content>
-        <mat-card-actions class="w-full mt-4">
-          <button [cdkCopyToClipboard]="note().content" mat-button>COPY</button>
-          <button [cdkCopyToClipboard]="'https://localhost:4200/notes/' + note().id" mat-button>SHARE</button>
-        </mat-card-actions>
+            <mat-divider></mat-divider>
+          </mat-card-content>
+          <mat-card-actions class="w-full mt-4">
+            <button [cdkCopyToClipboard]="note().content" mat-button>COPY</button>
+            <button [cdkCopyToClipboard]="'https://localhost:4200/notes/' + note().id" mat-button>SHARE</button>
+          </mat-card-actions>
+        </ng-template>
+
+        <ng-template #emptyTpl>
+          <div class="w-full h-28 flex justify-center items-center">
+            Note does not exist
+          </div>
+        </ng-template>
+
+        @if (isUserAnAuthor()) {
+          <div class="absolute top-4 right-4 flex items-center gap-x-2">
+            <a [routerLink]="['/notes/edit', note()?.id]">
+              <button type="button" mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+            </a>
+            @if (isDeleteClickedOnce()) {
+              <button (click)="deleteHandler()" class="!text-rose-600" type="button" mat-icon-button>
+                <mat-icon>delete</mat-icon>
+              </button>
+            } @else {
+              <button (click)="clickDeleteOnce()" type="button" mat-icon-button>
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </div>
+        }
       </mat-card>
     </div>
   </div>

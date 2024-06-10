@@ -1,9 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, Observable, of } from 'rxjs';
 import { environment } from '../environment';
 import { ToastrService } from 'ngx-toastr';
 import { INote } from '../models/i-note';
+import { INotesList } from '../models/i-notes-list';
+import { INotesListParams } from '../models/i-notes-list-params';
 
 
 @Injectable({
@@ -15,37 +17,35 @@ export class NotesService {
   private toastrService: ToastrService = inject(ToastrService);
 
   public getSingleNote(id: string): Observable<INote> {
-    return this.httpClient.get<INote>(`${this.apiUrl}/notes/${id}`).pipe(
-      catchError(() => {
-        this.toastrService.error('2137 notatka nie istnieje');
-        return of();
-      }),
-    );
+    return this.httpClient.get<INote>(`${this.apiUrl}/notes/${id}`);
   }
 
   public updateSingleNote(id: string, name: string, content: string): Observable<INote> {
     return this.httpClient.put<INote>(`${this.apiUrl}/notes/${id}`, { name, content }).pipe(
       catchError(() => {
         this.toastrService.error('2137 nie mozna zaaktualizowac');
-        return of();
+        return of(null);
       }),
     );
   }
 
   public deleteSingleNote(id: string): Observable<INote> {
-    return this.httpClient.delete<INote>(`${this.apiUrl}/notes/${id}`).pipe(
-      catchError(() => {
-        this.toastrService.error('2137 notatka nie moze zostac usunieta');
-        return of();
-      }),
-    );
+    return this.httpClient.delete<INote>(`${this.apiUrl}/notes/${id}`);
   }
 
-  public getAllNotes(): Observable<INote[]> {
-    return this.httpClient.get<INote[]>(`${this.apiUrl}/notes`).pipe(
+  public getAllNotes(params?: Partial<INotesListParams>): Observable<INotesList> {
+    const queryParams = new HttpParams();
+
+    if (params) {
+      for (const [ key, value ] of Object.entries(params)) {
+        queryParams.set(key, value);
+      }
+    }
+
+    return this.httpClient.get<INotesList>(`${this.apiUrl}/notes`, { params }).pipe(
       catchError(() => {
         this.toastrService.error('420 przerwa techniczna');
-        return of();
+        return of(null);
       }),
     );
   }
@@ -54,7 +54,7 @@ export class NotesService {
     return this.httpClient.post<INote>(`${this.apiUrl}/notes`, { name, content }).pipe(
       catchError(() => {
         this.toastrService.error('420 przerwa techniczna');
-        return of();
+        return of(null);
       }),
     );
   }
