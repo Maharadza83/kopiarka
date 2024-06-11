@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'https://localhost:7220/api',
-}
+  apiUrl: 'https://kopiarkaapi.azurewebsites.net/api',
+};
