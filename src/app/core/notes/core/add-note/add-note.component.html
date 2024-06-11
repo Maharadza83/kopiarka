@@ -9,6 +9,9 @@
       }
     </p>
 
+    <input type="file" accept="image/*" capture="user">
+
+
     <ng-container [ngTemplateOutlet]="noteLoading() ? noteLoadingTpl : contentTpl"/>
 
     <ng-template #noteLoadingTpl>
@@ -33,9 +36,17 @@
                     cdkAutosizeMaxRows="20"></textarea>
         </mat-form-field>
 
-        <input type="file" (change)="onFileChange($event)"/>
 
-        <button [disabled]="loading()" mat-flat-button class="w-full mt-2" type="submit">
+        @if (!isEditMode()) {
+          <div class="flex gap-x-2 items-center">
+            <button type="button" mat-button (click)="fileInput.click()">{{ file ? 'Change File' : 'Choose File' }}</button>
+            <input hidden (change)="onFileChange($event)" #fileInput type="file">
+
+            <p class="text-xs text-gray-500">{{ file?.name }}</p>
+          </div>
+        }
+
+        <button [disabled]="loading() || form.invalid" mat-flat-button class="w-full mt-5" type="submit">
           {{ isEditMode() ? 'Update' : 'Add' }}
         </button>
       </form>

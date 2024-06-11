@@ -42,7 +42,21 @@
 
           <ng-container matColumnDef="creationDate">
             <th mat-sort-header="creationDate" mat-header-cell *matHeaderCellDef> Creation Date</th>
-            <td mat-cell *matCellDef="let element"> {{ element.creationDate | date:'dd.MM.yyyy HH:mm' }}</td>
+            <td mat-cell *matCellDef="let element">
+              <p class="hidden lg:inline">{{ element.creationDate | date:'dd.MM.yyyy HH:mm' }}</p>
+              <p class="lg:hidden inline">{{ element.creationDate | date:'dd.MM.yyyy' }}</p>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              @if (element?.fileContent.length > 0) {
+                <button type="button" (click)="downloadHandler(element)" mat-icon-button color="primary">
+                  <mat-icon>download</mat-icon>
+                </button>
+              }
+            </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -11,6 +11,9 @@ import { INotesList } from '@copy/models/i-notes-list';
 import { INotesListParams } from '@copy/models/i-notes-list-params';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSort, MatSortHeader, Sort, SortDirection } from '@angular/material/sort';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { UtilsFiles } from '@copy/utils/utils-files';
 
 @Component({
   selector: 'app-notes-list',
@@ -33,6 +36,8 @@ import { MatSort, MatSortHeader, Sort, SortDirection } from '@angular/material/s
     MatProgressSpinner,
     MatSort,
     MatSortHeader,
+    MatIconButton,
+    MatIcon,
   ],
   templateUrl: './notes-list.component.html',
   styleUrl: './notes-list.component.scss',
@@ -40,7 +45,7 @@ import { MatSort, MatSortHeader, Sort, SortDirection } from '@angular/material/s
 })
 export class NotesListComponent {
   private readonly notesService: NotesService = inject(NotesService);
-  public readonly displayedColumns: string[] = [ 'id', 'name', 'author', 'creationDate' ];
+  public readonly displayedColumns: string[] = [ 'id', 'name', 'author', 'creationDate', 'action' ];
 
   public readonly page: WritableSignal<number> = signal(0);
   public readonly pageSize: WritableSignal<number> = signal(10);
@@ -85,5 +90,9 @@ export class NotesListComponent {
     const { active, direction } = sort;
     this.sortBy.set(active);
     this.sortOrder.set(direction);
+  }
+
+  public downloadHandler(element: INote): void {
+    UtilsFiles.downloadFile(element.fileContent, element.name, element.fileExtension);
   }
 }

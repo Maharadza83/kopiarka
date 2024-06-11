@@ -30,8 +30,16 @@
             <mat-divider></mat-divider>
           </mat-card-content>
           <mat-card-actions class="w-full mt-4">
-            <button [cdkCopyToClipboard]="note().content" mat-button>COPY</button>
-            <button [cdkCopyToClipboard]="'https://localhost:4200/notes/' + note().id" mat-button>SHARE</button>
+            <div class="flex flex-col gap-y-4">
+              @if (note()?.fileContent.length > 0) {
+                <button type="button" (click)="downloadHandler()" mat-flat-button color="link">Download File</button>
+              }
+              <div>
+                <button [cdkCopyToClipboard]="note().content" mat-button>COPY</button>
+                <button [cdkCopyToClipboard]="'https://localhost:4200/notes/' + note().id" mat-button>SHARE</button>
+              </div>
+            </div>
+
           </mat-card-actions>
         </ng-template>
 
@@ -63,8 +71,6 @@
     </div>
   </div>
 </div>
-
-<button (click)="download()">Pobierz</button>
 
 
 

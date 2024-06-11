@@ -5,4 +5,5 @@ export interface INote {
   name: string;
   content: string;
   fileContent: string;
+  fileExtension: string;
 }
