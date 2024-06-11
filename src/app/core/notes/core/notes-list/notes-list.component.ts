@@ -49,8 +49,8 @@ export class NotesListComponent {
 
   public readonly page: WritableSignal<number> = signal(0);
   public readonly pageSize: WritableSignal<number> = signal(10);
-  public readonly sortBy: WritableSignal<string> = signal(null);
-  public readonly sortOrder: WritableSignal<SortDirection> = signal(null);
+  public readonly sortBy: WritableSignal<string> = signal('creationDate');
+  public readonly sortOrder: WritableSignal<SortDirection> = signal('desc');
 
   public readonly loading: WritableSignal<boolean> = signal(false);
   public readonly isInitialLoading: Signal<boolean> = computed(() => {
@@ -88,8 +88,8 @@ export class NotesListComponent {
 
   public changeSort(sort: Sort): void {
     const { active, direction } = sort;
-    this.sortBy.set(active);
-    this.sortOrder.set(direction);
+    this.sortBy.set(active?.length > 0 ? active : 'creationDate');
+    this.sortOrder.set(direction.length > 0 ? direction : 'desc');
   }
 
   public downloadHandler(element: INote): void {

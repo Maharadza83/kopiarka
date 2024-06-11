@@ -26,6 +26,10 @@
         @if (form.get('password').hasError('maxlength')) {
           <mat-error>Password should contain up to 128 characters.</mat-error>
         }
+
+        @if (form.get('password').hasError('minlength')) {
+          <mat-error>Password should contain at least 5 characters.</mat-error>
+        }
       </mat-form-field>
 
       <button [disabled]="form.invalid || loading()" mat-flat-button class="w-full mt-2" type="submit">Register</button>

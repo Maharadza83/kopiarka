@@ -13,21 +13,11 @@ export class AuthService {
   private toastrService: ToastrService = inject(ToastrService);
 
   public login(username: string, password: string): Observable<{ token: string }> {
-    return this.httpClient.post<{ token: string }>(`${this.apiUrl}/auth/login`, { username, password }).pipe(
-      catchError(() => {
-        this.toastrService.error('Logowanie nie powiodło się. Sprawdź poprawność danych');
-        return of(null);
-      }),
-    );
+    return this.httpClient.post<{ token: string }>(`${this.apiUrl}/auth/login`, { username, password });
   }
 
   public register(username: string, password: string): Observable<void> {
-    return this.httpClient.post<void>(`${this.apiUrl}/auth/register`, { username, password }).pipe(
-      catchError(() => {
-        this.toastrService.error('Użytkownik o takim mailu lub nazwie już istnieje');
-        return of(null);
-      }),
-    );
+    return this.httpClient.post<void>(`${this.apiUrl}/auth/register`, { username, password });
   }
 
   public xregister(username: string, password: string): Observable<{ name: string }> {

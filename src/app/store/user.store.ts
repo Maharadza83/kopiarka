@@ -2,6 +2,7 @@ import { computed, inject, Injectable, Signal, signal, WritableSignal } from '@a
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,26 +20,30 @@ export class UserStore {
 
   public register(username: string, password: string): void {
     this.startLoading();
-    this.authService.register(username, password).subscribe(() => {
-        this.router.navigate([ '/auth/login' ]).then(() => this.toastrService.success('Zarejestrowano!'));
-      }, () => {
-      },
-      () => this.stopLoading(),
-    );
+    this.authService.register(username, password)
+      .subscribe(() => {
+          this.router.navigate([ '/auth/login' ]).then(() => this.toastrService.success('Zarejestrowano!'));
+        },
+        () => {
+          this.toastrService.error('Użytkownik o takim mailu lub nazwie już istnieje');
+        },
+      );
   }
 
   public login(username: string, password: string): void {
     this.startLoading();
-    this.authService.login(username, password).subscribe(({ token }) => {
-        localStorage.setItem('bearer', token);
-        this.router.navigate([ '/' ]).then(() => {
-            this.getSelf();
-          },
-        );
-      }, () => {
-      },
-      () => this.stopLoading(),
-    );
+    this.authService.login(username, password)
+      .pipe(
+        catchError(() => {
+          this.toastrService.error('Logowanie nie powiodło się. Sprawdź poprawność danych');
+          return of(null);
+        }),
+      ).subscribe(({ token }) => {
+      localStorage.setItem('bearer', token);
+      this.router.navigate([ '/' ]).then(() => {
+        this.getSelf();
+      });
+    });
   }
 
   public logOut(): void {

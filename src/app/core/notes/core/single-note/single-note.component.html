@@ -20,10 +20,12 @@
                 {{ note().creationDate | date: 'dd.MM.yyyy, HH:mm' }}
               </p>
             </mat-card-subtitle>
-            <mat-card-title>{{ note().name }}</mat-card-title>
+            <mat-card-title>
+              <p class="inline-block mb-2 max-w-full break-all overflow-hidden text-ellipsis line-clamp-3">{{ note().name }}</p>
+            </mat-card-title>
           </mat-card-header>
           <mat-card-content class="w-full mt-4">
-            <p class="text-sm text-gray-500 mb-3">{{ note().author }}</p>
+            <p class="text-sm text-gray-500 mb-3 inline-block max-w-full break-all overflow-hidden text-ellipsis">{{ note().author }}</p>
             <p class="text-justify break-words">
               {{ note().content }}
             </p>
