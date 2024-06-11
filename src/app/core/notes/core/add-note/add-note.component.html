@@ -22,6 +22,13 @@
         <mat-form-field appearance="outline" class="w-full mt-4">
           <mat-label>Name</mat-label>
           <input formControlName="name" matInput>
+          @if (form.get('name').hasError('required')) {
+            <mat-error>Name should not be empty!</mat-error>
+          }
+
+          @if (form.get('name').hasError('maxlength')) {
+            <mat-error>Name should contain up to 64 characters.</mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="w-full mt-4">
@@ -31,6 +38,14 @@
                     cdkTextareaAutosize
                     cdkAutosizeMinRows="8"
                     cdkAutosizeMaxRows="20"></textarea>
+
+          @if (form.get('content').hasError('required')) {
+            <mat-error>Content should not be empty!</mat-error>
+          }
+
+          @if (form.get('content').hasError('maxlength')) {
+            <mat-error>Password should contain up to 32 000 characters.</mat-error>
+          }
         </mat-form-field>
 
 

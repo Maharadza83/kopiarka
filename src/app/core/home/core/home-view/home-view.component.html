@@ -1,0 +1,41 @@
+<div class="home__bg absolute">
+  <div class="min-h-[92vh] flex items-end z-30 relative">
+    <div class="w-full py-3 lg:h-96 flex flex-col justify-center items-center gap-y-4">
+      <div class="lg:w-[440px] lg:px-3 w-80 bg-white text-center py-4 rounded-lg">
+        <h2 class="font-bold text-lg mb-2">Welcome to Kopiarka!</h2>
+        <p class="text-sm">Welcome to our e-learning platform, designed to facilitate students in sharing study notes to help each other in learning.</p>
+        <p class="text-sm">You can <a routerLink='/auth/login' class="text-blue-600">log in</a>, <a routerLink='/auth/register' class="text-blue-600">register</a>, add notes, and browse through the list of notes from other students.</p>
+        <p class="text-sm">Our goal is to create a friendly environment where students can support each other in learning and develop their skills.</p>
+      </div>
+
+      <button (click)="scrollTo(targetJoinUs)" type="button">
+        <i class="icon-chevron-down-outline text-gray-400 text-5xl"></i>
+      </button>
+    </div>
+  </div>
+
+  <div #targetJoinUs class="min-h-[92vh] flex items-end z-30 relative">
+    <div class="w-full py-3 lg:h-96 flex flex-col justify-center items-center gap-y-4">
+      <div class="lg:w-[440px] lg:px-3 w-80 bg-white text-center py-4 rounded-lg">
+        <h2 class="font-bold text-lg mb-2">Why join our community?</h2>
+        <ul class="text-sm pb-3">
+          <li>You will find helpful peers with similar interests and educational challenges.</li>
+          <li>You can share your notes and use notes from other students.</li>
+          <li>We offer the opportunity to develop interpersonal skills through participation in discussions and sharing ideas.</li>
+          <li>Our platform is user-friendly and ensures the security of your data.</li>
+        </ul>
+        <a routerLink='/notes/list' class="font-bold">See notes</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  [ngClass]="{ 'opacity-0': scrollValue() <= 50,
+              'opacity-30': scrollValue() > 50 && scrollValue() <= 250,
+              'opacity-70': scrollValue() > 250 && scrollValue() <= 500,
+              'opacity-100': scrollValue() > 500
+              }"
+  class="transition-opacity opaci fixed z-1 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+  <img src="assets/home/inter-mediolan.png">
+</div>

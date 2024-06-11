@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, Injector, OnInit, Signal, signal, WritableSignal } from '@angular/core';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
@@ -35,6 +35,7 @@ interface IUpdateNote {
     ReactiveFormsModule,
     NgTemplateOutlet,
     MatProgressSpinner,
+    MatError,
   ],
   templateUrl: './add-note.component.html',
   styleUrl: './add-note.component.scss',
@@ -121,8 +122,8 @@ export class AddNoteComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group<IUpdateNote>({
-      name: new FormControl(null, [ Validators.required ]),
-      content: new FormControl(null, [ Validators.required ]),
+      name: new FormControl(null, [ Validators.required, Validators.maxLength(64) ]),
+      content: new FormControl(null, [ Validators.required, Validators.maxLength(32000) ]),
     });
   }
 

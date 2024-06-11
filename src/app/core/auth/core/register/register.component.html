@@ -1,28 +1,36 @@
 <div class="flex mt-20 justify-center items-center ">
   <div class="p-5 bg-slate-200 shadow-lg rounded">
     <p class="text-2xl font-bold text-center w-full pt-1.5 text-slate-700">
-      Rejestracja
+      Register
     </p>
     <form (ngSubmit)="registerHandler()" [formGroup]="form" class="lg:w-96 w-72">
       <mat-form-field appearance="outline" class="w-full mt-4">
         <mat-label>Username</mat-label>
         <input formControlName="username" matInput type="email">
-        @if (form.get('username').invalid) {
-          <mat-error>Password should not be empty!</mat-error>
+        @if (form.get('username').hasError('required')) {
+          <mat-error>Username should not be empty!</mat-error>
+        }
+
+        @if (form.get('username').hasError('maxlength')) {
+          <mat-error>Username should contain up to 64 characters.</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="w-full mt-4">
         <mat-label>Password</mat-label>
         <input formControlName="password" matInput type="password">
-        @if (form.get('password').invalid) {
+        @if (form.get('password').hasError('required')) {
           <mat-error>Password should not be empty!</mat-error>
+        }
+
+        @if (form.get('password').hasError('maxlength')) {
+          <mat-error>Password should contain up to 128 characters.</mat-error>
         }
       </mat-form-field>
 
-      <button [disabled]="form.invalid || loading()" mat-flat-button class="w-full mt-2" type="submit">Zarejestruj się</button>
+      <button [disabled]="form.invalid || loading()" mat-flat-button class="w-full mt-2" type="submit">Register</button>
       <p class="text-xs text-center w-full pt-1.5 text-slate-700">
-        Masz konto? <a routerLink='/auth/login' class="text-blue-600">Zaloguj się!</a>
+        Already have an account? <a routerLink='/auth/login' class="text-blue-600">Log in!</a>
       </p>
     </form>
   </div>

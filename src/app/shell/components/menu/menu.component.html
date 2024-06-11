@@ -1,10 +1,10 @@
-<nav class="w-full py-2 px-5 bg-blue-200 shadow-lg items-center flex z-30 justify-between sticky top-0">
+<nav class="z-50 w-full py-2 px-5 bg-blue-200 shadow-lg items-center flex z-30 justify-between sticky top-0">
   <a routerLink="./" class="hidden lg:inline font-semibold text-blue-600">KOPIARKA</a>
   <a routerLink="./" class="lg:hidden font-semibold text-blue-600">KP</a>
 
   <div class="flex gap-x-3 lg:gap-x-10">
     <div class="flex gap-x-1">
-      <button type="button" routerLink="/notes/list" mat-button>Notes list</button>
+      <button type="button" routerLink="/notes/list" mat-button>Notes</button>
       <button type="button" routerLink="/notes/add" mat-button>Add new</button>
     </div>
 
@@ -17,10 +17,10 @@
         </button>
       } @else {
         <a routerLink="/auth/login">
-          <button type="button" mat-button>Sign in</button>
+          <button type="button" mat-button>Login</button>
         </a>
         <a routerLink="/auth/register">
-          <button type="button" mat-button>Sign up</button>
+          <button type="button" mat-button>Register</button>
         </a>
       }
     </div>

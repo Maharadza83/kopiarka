@@ -1,7 +1,7 @@
 <div class="flex mt-20 justify-center items-center ">
   <div class="p-5 bg-slate-200 shadow-lg rounded">
     <p class="text-2xl font-bold text-center w-full pt-1.5 text-slate-700">
-      Login
+      Log in
     </p>
     <form (ngSubmit)="loginHandler()" [formGroup]="form" class="lg:w-96 w-72">
       <mat-form-field appearance="outline" class="w-full mt-4">
@@ -20,9 +20,9 @@
         }
       </mat-form-field>
 
-      <button [disabled]="form.invalid || loading()" mat-flat-button class="w-full mt-2" type="submit">Zaloguj się</button>
+      <button [disabled]="form.invalid || loading()" mat-flat-button class="w-full mt-2" type="submit">Log in</button>
       <p class="text-xs text-center w-full pt-1.5 text-slate-700">
-        Nie masz konta? <a routerLink='/auth/register' class="text-blue-600">Zarejestruj się!</a>
+        You're new here? <a routerLink='/auth/register' class="text-blue-600">Register!</a>
       </p>
     </form>
   </div>

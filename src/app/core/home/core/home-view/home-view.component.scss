@@ -1,0 +1,9 @@
+.home {
+  &__bg {
+    position: relative;
+    background-image: url('/assets/home/main-bg.png');
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+  }
+}
