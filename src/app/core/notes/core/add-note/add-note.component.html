@@ -9,9 +9,6 @@
       }
     </p>
 
-    <input type="file" accept="image/*" capture="user">
-
-
     <ng-container [ngTemplateOutlet]="noteLoading() ? noteLoadingTpl : contentTpl"/>
 
     <ng-template #noteLoadingTpl>
