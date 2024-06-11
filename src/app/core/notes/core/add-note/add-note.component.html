@@ -33,6 +33,8 @@
                     cdkAutosizeMaxRows="20"></textarea>
         </mat-form-field>
 
+        <input type="file" (change)="onFileChange($event)"/>
+
         <button [disabled]="loading()" mat-flat-button class="w-full mt-2" type="submit">
           {{ isEditMode() ? 'Update' : 'Add' }}
         </button>

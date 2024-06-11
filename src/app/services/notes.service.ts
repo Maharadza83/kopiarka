@@ -50,8 +50,16 @@ export class NotesService {
     );
   }
 
-  public addNote(name: string, content: string): Observable<INote> {
-    return this.httpClient.post<INote>(`${this.apiUrl}/notes/AddNote`, { name, content }).pipe(
+  public addNote(name: string, content: string, file?: File): Observable<INote> {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('content', content);
+
+    if (file) {
+      formData.append('FormFile', file);
+    }
+
+    return this.httpClient.post<INote>(`${this.apiUrl}/notes/AddNote`, formData).pipe(
       catchError(() => {
         this.toastrService.error('420 przerwa techniczna');
         return of(null);

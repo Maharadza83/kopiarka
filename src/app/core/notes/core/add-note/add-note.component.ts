@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Injector, OnInit, Signal, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, Injector, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption } from '@angular/material/autocomplete';
 import { MatSelect } from '@angular/material/select';
@@ -9,7 +9,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NotesService } from '@copy/services/notes.service';
 import { ToastrService } from 'ngx-toastr';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of, skip, switchMap, take, tap } from 'rxjs';
 import { INote } from '@copy/models/i-note';
 import { NgTemplateOutlet } from '@angular/common';
@@ -44,12 +44,15 @@ export class AddNoteComponent implements OnInit {
   private readonly notesService: NotesService = inject(NotesService);
   private readonly router: Router = inject(Router);
   private readonly injector: Injector = inject(Injector);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly toastrService: ToastrService = inject(ToastrService);
   private readonly formBuilder: FormBuilder = inject(FormBuilder);
   public form: FormGroup<IUpdateNote>;
   public readonly loading: WritableSignal<boolean> = signal(false);
   public readonly noteLoading: WritableSignal<boolean> = signal(false);
+
+  public file: File;
 
   public readonly isEditMode: Signal<boolean> = toSignal(
     this.activatedRoute.params.pipe(
@@ -83,9 +86,17 @@ export class AddNoteComponent implements OnInit {
     this.patchFormListener();
   }
 
+  public onFileChange(event: any): void {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      this.file = file;
+    }
+  }
+
   public addHandler() {
     const { name, content } = this.form.getRawValue();
-    this.notesService.addNote(name, content).subscribe(({ id }) => {
+    this.notesService.addNote(name, content, this.file).subscribe(({ id }) => {
       this.router.navigate([ '/notes', id ]).then(() => {
         this.toastrService.success('Note added successfully.');
       });
@@ -120,6 +131,7 @@ export class AddNoteComponent implements OnInit {
       toObservable(this.editedNote, { injector: this.injector }).pipe(
         skip(1),
         take(1),
+        takeUntilDestroyed(this.destroyRef),
       ).subscribe(({ name, content }) => {
         this.form.patchValue({
           name,

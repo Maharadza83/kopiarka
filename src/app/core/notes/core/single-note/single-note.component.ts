@@ -93,4 +93,31 @@ export class SingleNoteComponent {
         ).subscribe();
     }
   }
+
+  public download(): void {
+    const byteCharacters = atob(this.note().fileContent);
+
+    // Utworzenie tablicy bajtów
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+
+    // Utworzenie obiektu Blob
+    const blob = new Blob([ byteArray ], { type: 'application/octet-stream' });
+
+    // Utworzenie linku do pobrania pliku
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = this.note().name;
+
+    // Dodanie linku do dokumentu i kliknięcie go w celu pobrania pliku
+    document.body.appendChild(link);
+    link.click();
+
+    // Usunięcie linku po pobraniu
+    document.body.removeChild(link);
+  }
 }

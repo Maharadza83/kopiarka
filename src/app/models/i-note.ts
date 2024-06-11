@@ -4,4 +4,5 @@ export interface INote {
   creationDate: string;
   name: string;
   content: string;
+  fileContent: string;
 }
